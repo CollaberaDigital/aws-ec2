@@ -1,9 +1,7 @@
 # Define the name of the GitHub Action workflow
 name: Create an ec2 instance
-# This workflow is manually triggered using the GitHub Actions UI
 on:
   workflow_dispatch:
-    # Define inputs that are required for the manual trigger
     inputs:
       instanceName:
         description: 'Name of the AWS Instance'
@@ -20,74 +18,48 @@ on:
 
 # Jobs to be executed in this workflow
 jobs:
-  # Job for applying the ec2 instance
   apply_ec2:
-    # Use the self-hosted runner
     runs-on: self-hosted # Or any specific label assigned to your self-hosted runner
-
-    # Execute this step only if the action input is "apply"
     if: ${{ github.event.inputs.action == 'apply' }}
-    # Define the steps for this job
     steps:
-      # Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Adding AWS keys. Please store the value of these keys in GitHub secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-
-      # Initialize Terraform
       - name: Terraform Init
         run: terraform init
         working-directory: .
-
-      # Format Terraform code
       - name: Terraform Format
         run: terraform fmt
         working-directory: .
-
-      # Validate the Terraform code
       - name: Terraform Validate
         run: terraform validate
         working-directory: .
-
-      # Apply the Terraform plan
       - name: Terraform Apply
         run: terraform apply -var instanceName=${{ github.event.inputs.instanceName }} -var awsRegion=${{ github.event.inputs.awsRegion }} -var instanceType=${{ github.event.inputs.instanceType }} -auto-approve
         working-directory: .
-
-  # Destroying the ec2 instance
   destroy_instance:
     runs-on: self-hosted # Or any specific label assigned to your self-hosted runner
-
-    # Execute this job only if the action input is "destroy"
     if: ${{ github.event.inputs.action == 'destroy' }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Adding AWS keys. Please store the value of these keys in GitHub secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-
       - name: Terraform Init
         run: terraform init
         working-directory: .
-
       - name: Terraform FMT
         run: terraform fmt
         working-directory: .
-
       # Destroy all resources
       - name: Terraform Destroy
         run: terraform destroy -var instanceName=${{ github.event.inputs.instanceName }} -var awsRegion=${{ github.event.inputs.awsRegion }} -auto-approve
