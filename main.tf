@@ -11,8 +11,8 @@ terraform {
 
 provider "aws" {
   region     = var.awsRegion
-  access_key = env("AWS_ACCESS_KEY_ID")
-  secret_key = env("AWS_SECRET_ACCESS_KEY")
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
   #   profile = "sagar"
 }
 
