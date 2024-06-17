@@ -23,7 +23,7 @@ jobs:
   # Job for applying the ec2 instance
   apply_ec2:
     # Use the self-hosted runner
-    runs-on: self-hosted  # Or any specific label assigned to your self-hosted runner
+    runs-on: self-hosted # Or any specific label assigned to your self-hosted runner
 
     # Execute this step only if the action input is "apply"
     if: ${{ github.event.inputs.action == 'apply' }}
@@ -63,7 +63,7 @@ jobs:
 
   # Destroying the ec2 instance
   destroy_instance:
-    runs-on: self-hosted  # Or any specific label assigned to your self-hosted runner
+    runs-on: self-hosted # Or any specific label assigned to your self-hosted runner
 
     # Execute this job only if the action input is "destroy"
     if: ${{ github.event.inputs.action == 'destroy' }}
