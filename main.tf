@@ -10,9 +10,9 @@ terraform {
 }
 
 provider "aws" {
-  region     = var.awsRegion
-  access_key = var.access_key
-  secret_key = var.secret_key
+  region     = "ap-southeast-1"
+  access_key = AKIAVVYDUF6HROQI6K4U
+  secret_key = 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
   #   profile = "sagar"
 }
 
