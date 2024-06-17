@@ -37,8 +37,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: ${{ github.event.inputs.awsRegion }}  # Added aws-region input
+          aws-region: ${{ github.event.inputs.awsRegion }}
 
       - name: Terraform Init
         run: terraform init
@@ -72,8 +71,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: ${{ github.event.inputs.awsRegion }}  # Added aws-region input
+          aws-region: ${{ github.event.inputs.awsRegion }}
 
       - name: Terraform Init
         run: terraform init
